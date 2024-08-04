@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festa di Matrimonio di Samuele ed Elena</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://th.bing.com/th/id/OIG1.3Vcrwwo127gXu1_C9_md?w=1024&h=1024&rs=1&pid=ImgDetMain');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: auto;
+        }
+        .invitation {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .couple-photo {
+            width: 100%;
+            max-width: 400px;
+            display: block;
+            margin: 20px auto;
+            border-radius: 5px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"], input[type="email"], textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-bottom: 2em;
+        }
+        button:hover {
+            background-color: #34495e;
+        }
+        #confirmation {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            display: none;
+        }
+        .map-link, .calendar-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #2c3e50;
+            text-decoration: none;
+            border-bottom: 1px solid #2c3e50;
+        }
+        .map-link:hover, .calendar-link:hover {
+            color: #34495e;
+            border-bottom-color: #34495e;
+        }
+        #nomi {
+            color: #2c3e50;
+            font-family: cursive;
+            font-size: 32px;
+            text-align: center;
+        }
+        
+        #presenza {
+            margin-top: 1em;
+        }
+
+        #avvertenza {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            margin-top: 4em;
+        }
+
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="invitation">
+            <h1>Siamo felici di invitarti alla nostra festa di matrimonio!</h1>
+            <img src="https://raw.githubusercontent.com/Sam-121212/matrimonio/main/foto%20sito%20matrimonio.png" alt="Samuele ed Elena" class="couple-photo">
+            <p id="nomi">Samuele ed Elena</p>
+            
+            <h2>Quando?</h2>
+            
+                <a href="#" class="calendar-link" id="addToCalendar">31 Agosto 2025 dalle 21:00  🗓️<i>(clicca qui)</i></a>
+
+            <h2>Dove?</h2>
+                <a href="https://maps.app.goo.gl/QnTeh1VFnArBHB7TA" target="_blank" class="map-link">La Castella - Regione Sant'Antonio 13, Villafranca d'Asti (AT) 📍<i>(clicca qui)</i></a>
+            
+            <p id="avvertenza">Alla festa ci sarà da ballare, quindi metti delle scarpe comode!</p>
+            
+            <h2 id="presenza">Conferma la tua presenza:</h2>
+            <form id="rsvpForm">
+                <label for="name">Nome e Cognome:</label>
+                <input type="text" id="name" name="name" required>
+                
+             <!--   <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>  -->
+                
+                <label for="attendance">Parteciperai?</label>
+                <select id="attendance" name="attendance" required>
+                    <option value="yes">Sì, parteciperò</option>
+                    <option value="no">No, non potrò partecipare</option>
+                </select>
+                
+             <!--    <label for="dietary">Intolleranze alimentari:</label>
+                <textarea id="dietary" name="dietary" rows="1"></textarea> -->
+                
+                <button type="submit">Invia risposta</button>
+            </form>
+
+            <p id="iban">Se desideri farci un regalino, puoi effettuare un bonifico al seguente IBAN: <br><b>IT41I0301503200000004174018</b></p>
+           <!-- <p><strong>IT41I0301503200000004174018</strong></p> -->
+            
+            <div id="confirmation"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            var queryString = new URLSearchParams(formData).toString();
+            
+            fetch('https://script.google.com/macros/s/AKfycbzHzgbe7bb2oMKGrUEoeIYkqTGQHNi1liHU4TQI3CF3FNHqBAAEk8-kN06UizwI5Ler/exec?' + queryString, {
+                method: 'GET',
+                mode: 'no-cors'
+            })
+            .then(response => {
+                var confirmationMessage = formData.get('attendance') === 'yes' 
+                    ? 'Grazie per aver confermato la tua presenza! Non vediamo l\'ora di condividere quel giorno con te 🥰'
+                    : 'Risposta inviata correttamente';
+                document.getElementById('confirmation').textContent = confirmationMessage;
+                document.getElementById('confirmation').style.display = 'block';
+                this.reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Si è verificato un errore. Per favore, riprova più tardi.');
+            });
+        });
+
+        document.getElementById('addToCalendar').addEventListener('click', function(e) {
+            e.preventDefault();
+            var event = {
+                title: 'Matrimonio di Samuele ed Elena',
+                start: '2025-08-31T21:00:00',
+                end: '2025-09-01T02:00:00',
+                location: 'La Castella - Regione Sant\'Antonio 13, Villafranca d\'Asti (AT)',
+                
+            };
+            
+            var googleCalendarUrl = 'https://www.google.com/calendar/render?action=TEMPLATE' +
+                '&text=' + encodeURIComponent(event.title) +
+                '&dates=' + event.start.replace(/[-:]/g, '') + '/' + event.end.replace(/[-:]/g, '') +
+                '&details=' + encodeURIComponent(event.description) +
+                '&location=' + encodeURIComponent(event.location) +
+                '&sprop=&sprop=name:';
+
+            window.open(googleCalendarUrl, '_blank');
+        });
+    </script>
+</body>
+</html>
